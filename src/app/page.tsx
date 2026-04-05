@@ -68,8 +68,8 @@ export default function Home() {
       {/* Footer */}
       <footer className="shrink-0 px-5 py-2 border-t border-border/50 flex items-center justify-between">
         <p className="text-[9px] text-foreground-muted/30">
-          &copy; {new Date().getFullYear()} Majlis Bandaraya Johor Bahru. AI
-          responses may not always be accurate.
+          &copy; {new Date().getFullYear()} Majlis Bandaraya Johor Bahru.
+          Respons AI mungkin tidak sentiasa tepat. / AI responses may not always be accurate.
         </p>
         <p className="text-[9px] text-foreground-muted/30">v1.0</p>
       </footer>

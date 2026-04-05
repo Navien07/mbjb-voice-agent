@@ -6,7 +6,8 @@ import VoiceOrb from "./VoiceOrb";
 import WaveformVisualizer from "./WaveformVisualizer";
 import ConversationPanel, { Message } from "./ConversationPanel";
 
-const AGENT_ID = "agent_6501kndhqed3ep5sxrgmv32xyqh7";
+// Fix 2: env var instead of hardcoded value
+const AGENT_ID = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID ?? '';
 
 type OrbState = "idle" | "connecting" | "listening" | "speaking";
 
@@ -46,27 +47,57 @@ function VoiceAgentInner({ topics }: { topics: string[] }) {
 
   const isConnected = conversation.status === "connected";
 
-  const handleStart = async () => {
+  // Fix 3: use signed URL instead of agentId directly
+  const handleStart = useCallback(async () => {
+    setOrbState('connecting')
     try {
-      setOrbState("connecting");
-      await conversation.startSession({ agentId: AGENT_ID });
-    } catch (err) {
-      console.error("Failed to start:", err);
-      setOrbState("idle");
+      // Step 1: request mic explicitly before SDK does it silently
+      await navigator.mediaDevices.getUserMedia({ audio: true })
+
+      // Step 2: get signed URL from our server route
+      const res = await fetch('/api/elevenlabs/signed-url')
+      if (!res.ok) {
+        const { error } = await res.json().catch(() => ({ error: 'Unknown' }))
+        throw new Error(`signed_url_failed: ${error}`)
+      }
+      const { signedUrl } = await res.json()
+      if (!signedUrl) throw new Error('signed_url_empty')
+
+      // Step 3: start session with signed URL (not agentId)
+      await conversation.startSession({ signedUrl })
+    } catch (err: unknown) {
+      const e = err as { name?: string; message?: string }
+      if (e.name === 'NotAllowedError' || e.name === 'PermissionDeniedError') {
+        console.error('Voice agent: microphone permission denied')
+      } else {
+        console.error('Voice agent: failed to start session:', e.message)
+      }
+      setOrbState('idle')
     }
-  };
+  }, [conversation])
 
-  const handleStop = async () => {
-    await conversation.endSession();
-    setOrbState("idle");
-  };
+  // Fix 4: try/catch on endSession
+  const handleStop = useCallback(async () => {
+    try {
+      await conversation.endSession()
+    } catch (err) {
+      console.error('Voice agent: error ending session:', err)
+    } finally {
+      setOrbState('idle')
+    }
+  }, [conversation])
 
-  const handleTextSend = () => {
-    const text = textInput.trim();
-    if (!text || !isConnected) return;
-    conversation.sendUserMessage(text);
-    setTextInput("");
-  };
+  // Fix 5: async + try/catch on sendUserMessage
+  const handleTextSend = useCallback(async () => {
+    const trimmed = textInput.trim()
+    if (!trimmed) return
+    setTextInput('')
+    try {
+      await conversation.sendUserMessage(trimmed)
+    } catch (err) {
+      console.error('Voice agent: failed to send message:', err)
+    }
+  }, [conversation, textInput])
 
   const getInputVolume = useCallback(() => {
     if (typeof conversation.getInputVolume === "function")
@@ -79,6 +110,9 @@ function VoiceAgentInner({ topics }: { topics: string[] }) {
       return conversation.getOutputVolume();
     return 0;
   }, [conversation]);
+
+  // Suppress unused-variable warning — AGENT_ID kept as fallback reference
+  void AGENT_ID;
 
   return (
     <div className="flex-1 flex flex-col lg:flex-row min-h-0 overflow-hidden">
@@ -107,10 +141,10 @@ function VoiceAgentInner({ topics }: { topics: string[] }) {
             }`}
           />
           <span className="text-xs font-medium uppercase tracking-widest text-foreground-muted">
-            {orbState === "idle" && "Ready"}
-            {orbState === "connecting" && "Connecting..."}
-            {orbState === "listening" && "Listening"}
-            {orbState === "speaking" && "Speaking"}
+            {orbState === "idle" && "SEDIA / READY"}
+            {orbState === "connecting" && "MENYAMBUNG / CONNECTING"}
+            {orbState === "listening" && "MENDENGAR / LISTENING"}
+            {orbState === "speaking" && "BERCAKAP / SPEAKING"}
           </span>
         </div>
 
@@ -150,7 +184,7 @@ function VoiceAgentInner({ topics }: { topics: string[] }) {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <rect x="6" y="6" width="12" height="12" rx="2" />
               </svg>
-              End Conversation
+              Tamat Perbualan / End Conversation
             </span>
           ) : (
             <span className="flex items-center gap-2">
@@ -160,13 +194,13 @@ function VoiceAgentInner({ topics }: { topics: string[] }) {
                 <line x1="12" y1="19" x2="12" y2="23" />
                 <line x1="8" y1="23" x2="16" y2="23" />
               </svg>
-              Start Conversation
+              Mula Perbualan / Start Conversation
             </span>
           )}
         </button>
 
         <p className="mt-2 text-[11px] text-foreground-muted/50 text-center max-w-xs hidden lg:block">
-          Click to start or tap the orb. Speak in Bahasa Melayu or English.
+          Bercakap dalam Bahasa Melayu atau Bahasa Inggeris. / Speak in Bahasa Melayu or English.
         </p>
       </div>
 
@@ -204,7 +238,7 @@ function VoiceAgentInner({ topics }: { topics: string[] }) {
               onChange={(e) => setTextInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleTextSend()}
               placeholder={
-                isConnected ? "Type a message..." : "Connect to start chatting..."
+                isConnected ? "Taip mesej... / Type a message..." : "Connect to start chatting..."
               }
               disabled={!isConnected}
               className="flex-1 bg-white/[0.04] border border-border rounded-xl px-4 py-2.5 text-sm text-foreground placeholder-foreground-muted/40 focus:outline-none focus:ring-1 focus:ring-accent/50 disabled:opacity-30 transition-all"
