@@ -6,7 +6,7 @@ import VoiceOrb from "./VoiceOrb";
 import WaveformVisualizer from "./WaveformVisualizer";
 import ConversationPanel, { Message } from "./ConversationPanel";
 
-const AGENT_ID = "agent_8201kmjh9h1re1dt1471cdypnx4t";
+const AGENT_ID = "agent_6501kndhqed3ep5sxrgmv32xyqh7";
 
 type OrbState = "idle" | "connecting" | "listening" | "speaking";
 
@@ -49,7 +49,6 @@ function VoiceAgentInner({ topics }: { topics: string[] }) {
   const handleStart = async () => {
     try {
       setOrbState("connecting");
-      await navigator.mediaDevices.getUserMedia({ audio: true });
       await conversation.startSession({ agentId: AGENT_ID });
     } catch (err) {
       console.error("Failed to start:", err);
