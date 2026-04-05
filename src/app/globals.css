@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+:root {
+  --bg-deep: #020617;
+  --bg-base: #0A0E27;
+  --bg-elevated: #0F172A;
+  --bg-card: #111827;
+  --surface: rgba(255, 255, 255, 0.04);
+  --foreground: #F1F5F9;
+  --foreground-muted: #94A3B8;
+  --accent: #0369A1;
+  --accent-light: #0EA5E9;
+  --accent-glow: rgba(3, 105, 161, 0.3);
+  --border: rgba(255, 255, 255, 0.08);
+  --ring: #0369A1;
+  --destructive: #DC2626;
+}
+
+@theme inline {
+  --color-bg-deep: var(--bg-deep);
+  --color-bg-base: var(--bg-base);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-card: var(--bg-card);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+  --color-accent-glow: var(--accent-glow);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-destructive: var(--destructive);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--bg-deep);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Orb animations */
+@keyframes orb-idle {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
+
+@keyframes orb-listening {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.12); }
+  75% { transform: scale(0.95); }
+}
+
+@keyframes orb-speaking {
+  0% { transform: scale(1); }
+  20% { transform: scale(1.15); }
+  40% { transform: scale(0.92); }
+  60% { transform: scale(1.08); }
+  80% { transform: scale(0.96); }
+  100% { transform: scale(1); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.4; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
