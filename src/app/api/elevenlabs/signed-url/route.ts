@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server'
 
 export async function GET() {
-  const agentId = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID
+  const agentId = process.env.ELEVENLABS_AGENT_ID
   const apiKey = process.env.ELEVENLABS_API_KEY
 
   if (!agentId || !apiKey) {
-    console.error('[Signed URL] Missing env: NEXT_PUBLIC_ELEVENLABS_AGENT_ID or ELEVENLABS_API_KEY')
+    console.error('[Signed URL] Missing env: ELEVENLABS_AGENT_ID or ELEVENLABS_API_KEY')
     return NextResponse.json(
       { error: 'Voice agent not configured' },
       { status: 500 }

@@ -6,8 +6,8 @@ import VoiceOrb from "./VoiceOrb";
 import WaveformVisualizer from "./WaveformVisualizer";
 import ConversationPanel, { Message } from "./ConversationPanel";
 
-// Fix 2: env var instead of hardcoded value
-const AGENT_ID = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID ?? '';
+// Agent ID is server-side only — accessed via /api/elevenlabs/signed-url
+// No NEXT_PUBLIC_ prefix needed since it's never sent to the browser
 
 type OrbState = "idle" | "connecting" | "listening" | "speaking";
 
@@ -110,9 +110,6 @@ function VoiceAgentInner({ topics }: { topics: string[] }) {
       return conversation.getOutputVolume();
     return 0;
   }, [conversation]);
-
-  // Suppress unused-variable warning — AGENT_ID kept as fallback reference
-  void AGENT_ID;
 
   return (
     <div className="flex-1 flex flex-col lg:flex-row min-h-0 overflow-hidden">
