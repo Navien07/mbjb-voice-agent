@@ -106,8 +106,8 @@ function VoiceAgentInner() {
           getOutputVolume={getOutputVolume}
         />
       </div>
-      <h2 className="text-2xl font-semibold text-foreground mt-4">Asyraf Ptptn</h2>
-      <p className="text-sm text-foreground-muted mt-1">PTPTN AI Assistant</p>
+      <h2 className="text-2xl font-semibold text-foreground mt-4">Demo</h2>
+      <p className="text-sm text-foreground-muted mt-1">AI Voice Demo</p>
       <div className="flex items-center gap-2 mt-3 mb-6">
         <div
           className={`w-2 h-2 rounded-full transition-colors ${
@@ -176,7 +176,7 @@ function VoiceAgentInner() {
               </button>
             )}
           </div>
-          <div className="max-h-72">
+          <div className="max-h-72 overflow-y-auto">
             <ConversationPanel messages={messages} isConnected={isConnected} />
           </div>
           <div className="px-4 py-3 border-t border-border">

@@ -16,16 +16,15 @@ export default function Home() {
     <main className="flex flex-col h-screen overflow-hidden bg-gradient-to-b from-bg-base via-bg-deep to-bg-deep">
       <header className="shrink-0 flex items-center justify-between px-6 py-4 border-b border-border bg-bg-elevated/40 backdrop-blur-md">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-accent to-accent-light flex items-center justify-center shadow-lg shadow-accent-glow">
-            <span className="text-white text-[10px] font-black tracking-tight leading-none">YTL</span>
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-600 to-blue-700 flex items-center justify-center shadow-lg">
+            <span className="text-white text-[10px] font-black tracking-tight leading-none">IB</span>
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-sm font-bold text-foreground">AI Labs</span>
-              <span className="text-sm font-bold text-accent-light">Ilmu</span>
+              <span className="text-sm font-bold text-foreground">IceBase</span>
             </div>
             <p className="text-[10px] text-foreground-muted/60 leading-none mt-0.5">
-              YTL AI Intelligence Platform
+              by Iceberg AI Solutions Sdn Bhd
             </p>
           </div>
         </div>
@@ -42,7 +41,7 @@ export default function Home() {
       <footer className="shrink-0 px-6 py-3 border-t border-border/50 flex items-center justify-center">
         <p className="text-[10px] text-foreground-muted/40">
           Demo Powered by{" "}
-          <span className="text-accent-light/70 font-medium">YTL AI Labs (Ilmu)</span>
+          <span className="text-accent-light/70 font-medium">Iceberg AI Solutions Sdn Bhd</span>
         </p>
       </footer>
     </main>
