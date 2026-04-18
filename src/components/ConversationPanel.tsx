@@ -43,7 +43,7 @@ export default function ConversationPanel({
         <p className="text-sm text-center">
           {isConnected
             ? "Listening... Ask your question"
-            : "Start a conversation to get help with MBJB services"}
+            : "Start a conversation to get help with PTPTN services"}
         </p>
       </div>
     );

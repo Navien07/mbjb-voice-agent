@@ -11,67 +11,39 @@ const VoiceAgent = dynamic(() => import("@/components/VoiceAgent"), {
   ),
 });
 
-const TOPICS = [
-  "Property Tax",
-  "Licensing",
-  "Complaints",
-  "Waste Collection",
-  "Building Permits",
-  "Parking",
-];
-
 export default function Home() {
   return (
     <main className="flex flex-col h-screen overflow-hidden bg-gradient-to-b from-bg-base via-bg-deep to-bg-deep">
-      {/* Header */}
-      <header className="shrink-0 flex items-center justify-between px-5 py-3 border-b border-border bg-bg-elevated/60 backdrop-blur-md">
+      <header className="shrink-0 flex items-center justify-between px-6 py-4 border-b border-border bg-bg-elevated/40 backdrop-blur-md">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-accent/20 flex items-center justify-center">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              className="text-accent-light"
-            >
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-accent to-accent-light flex items-center justify-center shadow-lg shadow-accent-glow">
+            <span className="text-white text-[10px] font-black tracking-tight leading-none">YTL</span>
           </div>
           <div>
-            <h1 className="text-sm font-semibold text-foreground tracking-tight">
-              MBJB Voice Agent
-            </h1>
-            <p className="text-[10px] text-foreground-muted leading-none mt-0.5">
-              Majlis Bandaraya Johor Bahru
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-sm font-bold text-foreground">AI Labs</span>
+              <span className="text-sm font-bold text-accent-light">Ilmu</span>
+            </div>
+            <p className="text-[10px] text-foreground-muted/60 leading-none mt-0.5">
+              YTL AI Intelligence Platform
             </p>
           </div>
         </div>
-
         <div className="flex items-center gap-3">
-          <span className="text-[10px] text-foreground-muted/60 hidden sm:block">
-            Berkhidmat, Berbudaya, Berwawasan
+          <span className="text-[10px] text-foreground-muted/50 hidden sm:block">
+            Conversational AI Demo
           </span>
-          <div className="w-px h-4 bg-border hidden sm:block" />
-          <span className="text-[10px] text-foreground-muted/40">
-            Powered by AI
+          <span className="text-[10px] px-2.5 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent-light font-medium">
+            Demo
           </span>
         </div>
       </header>
-
-      {/* Voice Agent (takes all remaining space) */}
-      <VoiceAgent topics={TOPICS} />
-
-      {/* Footer */}
-      <footer className="shrink-0 px-5 py-2 border-t border-border/50 flex items-center justify-between">
-        <p className="text-[9px] text-foreground-muted/30">
-          &copy; {new Date().getFullYear()} Majlis Bandaraya Johor Bahru.
-          Respons AI mungkin tidak sentiasa tepat. / AI responses may not always be accurate.
+      <VoiceAgent />
+      <footer className="shrink-0 px-6 py-3 border-t border-border/50 flex items-center justify-center">
+        <p className="text-[10px] text-foreground-muted/40">
+          Demo Powered by{" "}
+          <span className="text-accent-light/70 font-medium">YTL AI Labs (Ilmu)</span>
         </p>
-        <p className="text-[9px] text-foreground-muted/30">v1.0</p>
       </footer>
     </main>
   );
