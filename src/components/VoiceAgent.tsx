@@ -47,7 +47,7 @@ function VoiceAgentInner() {
     setOrbState("connecting");
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true });
-      await conversation.startSession({ agentId: AGENT_ID });
+      await conversation.startSession({ agentId: AGENT_ID, connectionType: "websocket" });
     } catch (err: unknown) {
       const e = err as { name?: string; message?: string };
       if (e.name === "NotAllowedError" || e.name === "PermissionDeniedError") {
